@@ -6,7 +6,7 @@ Minimal example of a segfault in Django using a compiled Nimpy binary
 - Install the requirements with `pip install -r requirements.txt`
 - Run the following command to create the database `python manage.py migrate`
 - cd to the folder testapp/compiled and run the command:
-  -  `nim c --app:lib --out:mylib.so mylib`
+  - `nim c --app:lib --out:mylib.so mylib`
 - Start the server by running `python manage.py runserver`
 
 The service should now be available on [http://localhost:8000](http://localhost:8000)
@@ -21,3 +21,12 @@ Three endpoints should now be available at [http://localhost:8000](http://localh
 - `/test` - Shows  all `Question`s
 - `/generate-questions` - Generates 10 `Question`s with 1-5 `Choice`s
 - `/nim` - Runs the endpoint that uses Nim
+
+# Trigger the segfault
+To trigger the segfault run the following commands after starting the server:
+- `curl http://localhost:8000/generate-questions`
+- Optional: this should work without any errors
+  - `curl http://localhost:8000/test`
+  - `curl http://localhost:8000/nim`
+- `curl http://localhost:8000/generate-questions`
+- `curl http://localhost:8000/nim` - here it will segfault
